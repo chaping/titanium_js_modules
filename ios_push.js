@@ -27,3 +27,13 @@ var apns = function(success,receive,error){//success为注册成功回调；rece
 
 /*************************************************/
 exports.register = apns;
+
+
+/*******使用*************************************************/
+//////////////////////app.js///////////////////////
+/*var platform = Ti.Platform.name;
+  if(platform != 'android'){
+  	var apns = require('ios_push');
+  	apns.register();
+  }
+*/
