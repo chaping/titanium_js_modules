@@ -71,7 +71,7 @@ if(OS_ANDROID){
 	                   var roate = matrix2d.rotate(179); // in degrees
 	                   var a = Ti.UI.createAnimation({
 	                        transform: roate,
-	                        duration: 600
+	                        duration: 200
 	                   });
 	                   arrowView.animate(a);                   
 	                }
@@ -84,7 +84,7 @@ if(OS_ANDROID){
 	                   var roate = matrix2d.rotate(0); // in degrees
 	                   var a = Ti.UI.createAnimation({
 	                        transform: roate,
-	                        duration: 600
+	                        duration: 200
 	                   });
 	                   arrowView.animate(a);                          
 	                }
@@ -212,10 +212,11 @@ if(OS_ANDROID){
 	    var onRefresh = null; //刷新回调函数
 	    var refreshing = false; //是否正在刷新
 	    
+	    var dpi_x = Titanium.Platform.displayCaps.dpi / 160; //dp转化为px的系数
 	    
 	    function onScroll(e){
 	    	if(refreshing) return;
-	    	if(e.y<-refreshHeight && !refreshing){
+	    	if(e.y*dpi_x<-refreshHeight && !refreshing){ //注意，与安卓不同，ios的滚动事件的滚动条偏移值的单位是dp,而不是px
 	    		refresh = true;
 	    		if(arrowView && arrowDirect!='up'){//旋转箭头动画
                    textView.text = releaseText; 
@@ -224,7 +225,7 @@ if(OS_ANDROID){
                    var roate = matrix2d.rotate(179); // in degrees
                    var a = Ti.UI.createAnimation({
                         transform: roate,
-                        duration: 600
+                        duration: 200
                    });
                    arrowView.animate(a);                   
                 }
@@ -238,7 +239,7 @@ if(OS_ANDROID){
                    var roate = matrix2d.rotate(0); // in degrees
                    var a = Ti.UI.createAnimation({
                         transform: roate,
-                        duration: 600
+                        duration: 200
                    });
                    arrowView.animate(a);                          
                 }
@@ -247,7 +248,7 @@ if(OS_ANDROID){
 	    
 	   
 	    function onDragend(e){
-	    	if(refresh){
+	    	if(refresh && !refreshing){
 	            pullViewTop = -(pullViewHeight - refreshHeight);
 	            pullView.top = pullViewTop + 'px';
 	            if(textView) textView.text = loadingText;
