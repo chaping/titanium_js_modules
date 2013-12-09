@@ -5,7 +5,13 @@ function ajax(url,opt){
 	var client = Ti.Network.createHTTPClient({
 	     onload : function(e) {
 	     	 var data = this.responseText;
-	     	 if(dataType == 'json') data = JSON.parse(data);
+	     	 if(dataType == 'json'){
+	     	     try{
+                     data = JSON.parse(data);
+                 }catch(e){
+                     data = [];
+                 };  
+	     	 }
 	         opt.success && opt.success(data);
 	     },
 	     onerror : function(e) {
@@ -25,6 +31,7 @@ function ajax(url,opt){
 	 	}
 	 }
 	 client.open(type, url);
+	 client.setRequestHeader("Connection", "close");//不使用长连接
 	 if(data && type=='POST'){
 	 	client.send(data);	
 	 }else{
