@@ -135,7 +135,9 @@ function upload(url,data,opt){//上传函数,data是一个js对象,里面既包�
 	opt.error = opt.error || function(error){};
 	opt.progress = opt.progress || function(progress){}; //progress 取值为 0 到 1
 	
-	var xhr = Titanium.Network.createHTTPClient();
+	var xhr = Titanium.Network.createHTTPClient({
+	    timeout : 1000*60*10  // in milliseconds
+	});
 	xhr.onload = function(e) {
 		Ti.API.info('IN ONLOAD ' + this.status + ' readyState ' + this.readyState);
 		opt.success && opt.success(this.responseText);
