@@ -11,6 +11,7 @@ function ajax(url,opt){
                  }catch(e){
                      data = [];
                  };  
+                 if(!data) data = [];
 	     	 }
 	         opt.success && opt.success(data);
 	     },
