@@ -53,10 +53,8 @@ function Zoom(opt){
 	}
 	if(!container || !elem) return;
 	/********************************************************************************************************/
+	
 	function onPinch(e){
-		//var _currentScale = e.scale*lastScale;
-		//if(_currentScale<minScale || _currentScale>maxScale) return;//已经是最大或最小缩放了
-		
 		if(newPinch){//是一次新的缩放，双手都放开了
 			canPinch = true;
 			lastScale = currentScale;
@@ -94,8 +92,6 @@ function Zoom(opt){
 				if(lastY>=maxY) currentY = maxY;
 				else if(lastY<=minY) currentY = minY;
 			}
-			
-			//opt.txt.text ='move\n' + containerHeight+'\n'+currentHeight+'\n'+currentScale+'\n'+lastX+'\n'+lastY+'\n'+currentX+'\n'+currentY;
 			
 			var m = Ti.UI.create2DMatrix();
 			m = m.scale(currentScale);//注意，要先把scale方法放在translate方法前面，不然会影响到translate操作
@@ -157,7 +153,6 @@ function Zoom(opt){
 			else if(currentY>=maxY) currentY = maxY;
 		}
 		
-		//opt.txt.text ='move\n' + containerHeight+'\n'+currentHeight+'\n'+currentScale+'\n'+lastX+'\n'+lastY+'\n'+currentX+'\n'+currentY;
 		
 		var m = Ti.UI.create2DMatrix();
 		m = m.scale(currentScale);//注意，要先把scale方法放在translate方法前面，不然会影响到translate操作
@@ -195,12 +190,27 @@ function Zoom(opt){
 	};
 	this.disable = function(){//关闭缩放平移功能
 		if(!container || !funcEnable) return;
-		container.addEventListener('touchstart',onTouchstart);
-		container.addEventListener('touchmove',onTouchmove);
-		container.addEventListener('pinch',onPinch);
-		container.addEventListener('touchend',onTouchend);
+		container.removeEventListener('touchstart',onTouchstart);
+		container.removeEventListener('touchmove',onTouchmove);
+		container.removeEventListener('pinch',onPinch);
+		container.removeEventListener('touchend',onTouchend);
 		funcEnable = false;
 	}; 
+	this.reset = function(elem){//重置为初始状态，也可以在这里更改缩放元素
+		lastScale = currentScale = 1;
+		canPinch = canMove = newPinch = true;
+		initX = initY = lastX = lastY = currentX = currentY = 0;
+		containerWidth = containerHeight = width = height = currentWidth = currentHeight = null;
+		minX = minY = maxX = maxY = 0;	
+		
+		if(elem) elem = elem; //重新指定要缩放的元素
+		
+		var m = Ti.UI.create2DMatrix();
+		m = m.scale(currentScale);
+		m = m.translate(currentX,currentY);
+		elem.transform = m;
+	};
+	
 	
 	this.getCurrentScale = function(){//获取当前的缩放值
 		return currentScale;
