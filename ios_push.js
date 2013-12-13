@@ -2,11 +2,13 @@ var apns = function(success,receive,error){//success为注册成功回调；rece
   Titanium.Network.registerForPushNotifications({
 	    types: [
 	        Titanium.Network.NOTIFICATION_TYPE_BADGE,
-	        Titanium.Network.NOTIFICATION_TYPE_ALERT
+	        Titanium.Network.NOTIFICATION_TYPE_ALERT,
+			//Titanium.Network.NOTIFICATION_TYPE_NEWSSTAND,
+			Titanium.Network.NOTIFICATION_TYPE_SOUND
 	    ],
 	    success:function(e)
 	    {
-	        Ti.API.info("Push notification device token is: "+deviceToken);
+	        Ti.API.info("Push notification device token is: "+e.deviceToken);
 	        Ti.API.info("Push notification types: "+Titanium.Network.remoteNotificationTypes);
 	        Ti.API.info("Push notification enabled: "+Titanium.Network.remoteNotificationsEnabled);
 	        success && success(e);
