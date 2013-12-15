@@ -116,6 +116,10 @@ if(OS_ANDROID){
 	        
 	    }
 	    
+	    function onTouchstart(){
+	    	if(scrollEnabled!==true) scrollView.scrollingEnabled = scrollEnabled = true;//防止滚动被禁用了
+	    }
+	    
 	    function onScroll(e){//监测区域是否已到顶
 	        if(e.source != scrollView) return;
 	        if(e.y<=0 && !hasRegisterTouchmove &&!refresh){
@@ -166,6 +170,7 @@ if(OS_ANDROID){
 	        pullView.height = pullViewHeight + 'px';
 	        pullView.top = pullViewTop + 'px';
 	        scrollView.addEventListener('scroll',onScroll);
+	        scrollView.addEventListener('touchstart',onTouchstart); //防止滚动被禁用了
 	    }
 	    
 	    init(scroll_view,pull_view,opt); //初始化
