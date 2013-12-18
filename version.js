@@ -32,7 +32,7 @@ function notify(version,url,msg){//通知有新的版本
 		cancel: 1,
 		buttonNames: ['立即下载', '暂不升级'],
 		message: msg,
-		title: '发现新版本' + version
+		title: '发现新版本'
 	 });
 	 dialog.addEventListener('click', function(e){
 		if (e.index === e.source.cancel){
@@ -59,7 +59,7 @@ function check(version_url,opt){
 		////////
 	}
 	if(!http) return;
-	http.getJSON(version_url,{},function(data){//url必须返回一个json数据，此数据包含version,url,msg三个键
+	http.getJSON(version_url,{platform:Ti.Platform.osname},function(data){//url必须返回一个json数据，此数据包含version,url,msg三个键
 		if(!data.version || !data.url) return;
 		lastCheckTime = now.getTime();
 		Ti.App.Properties.setString('lastCheckTime',lastCheckTime);
