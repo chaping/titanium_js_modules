@@ -25,9 +25,10 @@ var r = new refresh($.scroll,$.refresh_view,{
     }
 }); 
 *************************************************************************************** */
-if(OS_ANDROID){
+
+if(Ti.Platform.name==='android'){
 	
-	function pullRefresh_android(scroll_view,pull_view,opt){
+	var pullRefresh_android = function(scroll_view,pull_view,opt){
 	        
 	    var scrollView,pullView;
 	    
@@ -198,11 +199,11 @@ if(OS_ANDROID){
 	        if(timeView && timeText) timeView.text = timeText; //更新时间
 	    };
 	
-	}
+	};
 	
-}else if(OS_IOS){
+}else{
 	
-	function pullRefresh_ios(scroll_view,pull_view,opt){
+	var pullRefresh_ios = function (scroll_view,pull_view,opt){
 	        
 	    var scrollView,pullView;
 	    
@@ -331,8 +332,8 @@ if(OS_ANDROID){
 	        if(timeView && timeText) timeView.text = timeText; //更新时间
 	    };
 	
-	}
+	};
 
 }
 /************************************************/
-module.exports = OS_IOS ? pullRefresh_ios : pullRefresh_android;
+module.exports = Ti.Platform.name==='android' ? pullRefresh_android : pullRefresh_ios;
